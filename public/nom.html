@@ -11,16 +11,19 @@
 <div id="app">
     <div class="calendar" >
         <div class="timeline" >
+            <div class="time-marker" ></div>
             <div class="time-marker" v-for="heure in heures">{{ heure }}</div>
         </div>
         <div class="days">
             <div class="events">
                 <div class="event securities" v-for="coursCourant in coursSet" :style="[{'grid-row-start': coursCourant.start},{'grid-row-end': coursCourant.end}]">
-                    <p class="title">{{ coursCourant.cours.matiere.titre}}</p>
+                    <p class="title" style="text-align: center;" >{{ coursCourant.cours.matiere.titre}} {{ coursCourant.cours.salle.numero}} {{coursCourant.start}} {{coursCourant.end}}</p>
                 </div>
             </div>
         </div>
     </div>
+    <button v-on:click="nextDay()">Jour suivant</button>
+    <button v-on:click="previousDay()">Jour précédent</button>
 </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -33,14 +36,33 @@
                     apiBase: 'http://localhost:8000/api/',
                     cours: [],
                     coursSet: [],
-                    heuresBases: ['08H00','09H00','10H00','11H00','12H00','13H00','14H00','15H00','16H00','17H00','18H00',],
-                    heures: []
+                    heuresBases: ['08H00','09H00','10H00','11H00','12H00','13H00','14H00','15H00','16H00','17H00','18H00'],
+                    heures: [],
+                    pagination: 0
                 }
             },
 
             methods: {
-                getCours:  function() {
-                    axios.get(this.apiBase + 'cours')
+                nextDay: function(){
+                    this.pagination+=1;
+                    this.getCoursByDate();
+                },
+                previousDay: function(){
+                    this.pagination-=1;
+                    this.getCoursByDate();
+                },
+                getCoursByDate: function(){
+                    var currentDate = new Date();
+
+                    currentDate.setDate(currentDate.getDate()+this.pagination);
+                    var dateString = currentDate.getFullYear()+'-';
+
+                    dateString += currentDate.getMonth() < 10 ? '0'+(currentDate.getMonth()+1)+'-' : (currentDate.getMonth()+1)+'-';
+                    dateString += currentDate.getDate() < 10 ? '0'+currentDate.getDate() : currentDate.getDate();
+
+                    axios.post(this.apiBase + 'cours/getByDate',{
+                        "date": dateString
+                    })
                         .then(response => {
                             this.cours = response.data;
                             this.setHeures();
@@ -50,8 +72,8 @@
                         })
                 },
                 setHeures: function() {
-                    this.heures = this.heuresBases;
-                    
+                    this.heures = this.heuresBases.slice();
+                    console.log(this.cours);
                     this.cours.forEach(element => {
                        
                         var heureDeb = element.dateHeureDebut.date.split(' ')[1].split(':')[0] + 'H' + element.dateHeureDebut.date.split(' ')[1].split(':')[1];
@@ -83,20 +105,24 @@
                         
                         var heureDeb = element.dateHeureDebut.date.split(' ')[1].split(':')[0] + 'H' + element.dateHeureDebut.date.split(' ')[1].split(':')[1];
                         var heureFin = element.dateHeureFin.date.split(' ')[1].split(':')[0] + 'H' + element.dateHeureFin.date.split(' ')[1].split(':')[1];
-
+                        console.log(this.heures);
+                        console.log(this.heures.indexOf(heureDeb));
+                        console.log(this.heures.indexOf(heureFin));
                         jsonCour['heureDeb'] = heureDeb;
                         jsonCour['heureFin'] = heureFin;
                         jsonCour['cours'] = element;
-                        jsonCour['start'] = this.heures.indexOf(heureDeb);
-                        jsonCour['end'] = this.heures.indexOf(heureFin);
+                        jsonCour['start'] = this.heures.indexOf(heureDeb)+2;
+                        jsonCour['end'] = this.heures.indexOf(heureFin)+2;
 
+                        console.log(jsonCour);
                         this.coursSet.push(jsonCour);
                     })
+                    console.log(this.coursSet);
                 }
             },
 
             mounted() {
-                this.getCours()
+                this.getCoursByDate()
             }
         }).mount('#app')
     </script>
@@ -105,7 +131,7 @@
   <style>
     :root {
         --numDays: 5;
-        --numHours: 11;
+        --numHours: 12;
         --timeHeight: 60px;
         --calBgColor: #fff1f8;
         --eventBorderColor: #f2d3d8;
