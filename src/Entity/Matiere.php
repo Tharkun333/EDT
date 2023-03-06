@@ -26,9 +26,13 @@ class Matiere implements \JsonSerializable
     #[ORM\ManyToMany(targetEntity: Professeur::class, mappedBy: 'matieres')]
     private Collection $professeurs;
 
+    #[ORM\OneToMany(mappedBy: 'matiere', targetEntity: Cours::class, orphanRemoval: true)]
+    private Collection $cours;
+
     public function __construct()
     {
         $this->professeurs = new ArrayCollection();
+        $this->cours = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,6 +103,36 @@ class Matiere implements \JsonSerializable
             'titre' => $this->getTitre(),
             'reference'=> $this->getReference()
         ];
+    }
+
+    /**
+     * @return Collection<int, Cours>
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCour(Cours $cour): self
+    {
+        if (!$this->cours->contains($cour)) {
+            $this->cours->add($cour);
+            $cour->setMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCour(Cours $cour): self
+    {
+        if ($this->cours->removeElement($cour)) {
+            // set the owning side to null (unless already changed)
+            if ($cour->getMatiere() === $this) {
+                $cour->setMatiere(null);
+            }
+        }
+
+        return $this;
     }
 
 }
