@@ -1,0 +1,42 @@
+[class="container-fluid-premier"]
+{
+    background-color: rgb(240, 232, 215) ;
+    padding-top: 10px;
+    text-align: center;
+    line-height: 35px;
+    color: rgb(0, 0, 0);
+  
+}
+[class="row-fluid-stages"]{
+    text-align: left;
+  
+}
+
+[class="row-fluid"]{
+    margin-top: 10px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+  
+}
+
+
+[class*="flex-sm-fill text-sm-center nav-link"]{
+    color: black;
+    width: 33%;
+    border: 2px solid #000000;
+    border-radius: 10px;
+  
+}
+[class="flex-sm-fill text-sm-center nav-link moi"]{
+    
+    border-left: black;
+    border: 2px solid #000000;
+    border-radius: 10px;
+  
+}
+
+[class="row-fluid-formulaire"]{
+    
+    text-align: center;
+  
+}

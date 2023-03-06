@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+
+{% block Contenu %}
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prenom</th>
+        <th scope="col">Mail</th>
+        <th scope="col">Action</th>
+        </tr>
+    </thead>
+    {% for professor in list %}
+        <tbody>
+            <tr>
+                <th scope="row">{{professor.id}}</th>
+                <td>{{professor.nom}}</td>
+                <td>{{professor.prenom}}</td>
+                <td>{{professor.email}}</td>
+                <td>
+                <a  href="{{path('professeur_edit',{id:professor.id})}}">Editer</a>
+                <a  href="{{path('professeur_delete',{id:professor.id})}}">Supprimer</a>
+                
+                </td>
+            </tr>
+        </tbody>
+    {% endfor %}
+
+</table>
+
+{% endblock %}
+

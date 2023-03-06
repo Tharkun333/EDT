@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block Contenu %}
+
+<div class="row-fluid-formulaire">
+</br><strong>
+
+Création : Saisisser les caractéristique du professeur
+</strong></br>
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+        <div class="col-md-8">
+            {{form_start(form)}}
+
+            <dt><br>
+            {{form_row(form.nom)}}
+            </dt>
+            <dt><br>
+            {{form_row(form.prenom)}}
+            </dt>
+            <dt><br>
+            {{form_row(form.email)}}
+            </dt>
+            
+           
+ <br><br>
+            {{form_row(form.Enregistrer)}}
+
+            <a class="btn btn-dark" href="{{ url('professeur_list') }}" >Annuler</a> 
+        
+             {{form_end(form)}}
+            
+
+        <div>
+
+    <div class="col-md-2">
+    </div>
+</div></br>
+</div>
+
+
+{% endblock %}
