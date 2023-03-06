@@ -49,7 +49,7 @@ class CoursController extends AbstractController
     public function getByDate( Request $request,CoursRepository $coursRepository,ValidatorInterface $validatorInterface): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-
+        
         $date = \DateTime::createFromFormat('Y-m-d', $data['date']);
         if (!$date) {
             return $this->json("La valeur '$date' n'est pas une date valide (format attendu : YYYY-MM-DD).", Response::HTTP_BAD_REQUEST);
