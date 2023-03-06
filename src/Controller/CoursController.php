@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use App\Repository\CoursRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/cours', name: 'cours_')]
 class CoursController extends AbstractController
 {
-    #[Route('/cours', name: 'app_cours')]
-    public function index(): Response
+    #[Route('', name: 'list')]
+    public function list(CoursRepository $repositoryCours): Response
     {
-        return $this->render('cours/index.html.twig', [
-            'controller_name' => 'CoursController',
+        $list = $repositoryCours->findAll();
+
+        return $this->render('cours/list.html.twig', [
+            'list' => $list,
         ]);
     }
 }

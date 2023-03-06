@@ -100,6 +100,16 @@ class Cours
         return $this;
     }
 
+    public function toStringDateDebut()
+    {
+        return $this->dateHeureDebut->format('Y-m-d H:i:s');
+    }
+
+    public function toStringDateFin()
+    {
+        return $this->dateHeureFin->format('Y-m-d H:i:s');
+    }
+
     public function __toString()
     {
         return sprintf('%s %s %s (%s)', $this->dateHeureDebut->format('Y-m-d H:i:s'), $this->dateHeureFin->format('Y-m-d H:i:s'), $this->getType(), $this->getSalle());
