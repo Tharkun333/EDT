@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\CoursRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: CoursRepository::class)]
-class Cours
+class Cours implements \JsonSerializable 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -113,6 +115,19 @@ class Cours
     public function __toString()
     {
         return sprintf('%s %s %s (%s)', $this->dateHeureDebut->format('Y-m-d H:i:s'), $this->dateHeureFin->format('Y-m-d H:i:s'), $this->getType(), $this->getSalle());
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'dateHeureDebut' => $this->getDateHeureDebut(),
+            'dateHeureFin'=> $this->getDateHeureFin(),
+            'type'=> $this->getType(),
+            'professeur' => $this->getProfesseur(),
+            'matiere' => $this->getMatiere(),
+            'salle' => $this->getSalle(),
+        ];
     }
 
     public function getType(): ?Type
