@@ -30,6 +30,12 @@ class ProfesseurController extends AbstractController
         ]);
     }
 
+    #[Route('/note', name: 'note', methods: ['GET'])]
+    public function note(): Response
+    {
+        return $this->render('professeur/note.html.twig');
+    }
+
     #[Route('/create', name: 'create', methods: ['GET','POST'])]
     public function create(Request $request, ProfesseurRepository $repositoryProfesseur): Response
     {
