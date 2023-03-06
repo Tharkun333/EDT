@@ -130,6 +130,18 @@ class Cours implements \JsonSerializable
         ];
     }
 
+    // TODO
+    public function from($data): self {
+        $this->dateHeureDebut = \DateTime::createFromFormat('Y-m-d H:i:s','2023-07-07 10:00:00') ?? $this->dateHeureDebut;
+        $this->dateHeureFin = \DateTime::createFromFormat('Y-m-d H:i:s',$data['dateHeureFin']['date']) ?? $this->dateHeureFin;
+        $this->type = $data['type'] ?? $this->type;
+        $this->professeur = $data['professeur'] ?? $this->professeur;
+        $this->matiere = $data['matiere'] ?? $this->matiere;
+        $this->salle = $data['salle'] ?? $this->salle;
+
+        return $this;
+    }
+
     public function getType(): ?Type
     {
         return $this->type;

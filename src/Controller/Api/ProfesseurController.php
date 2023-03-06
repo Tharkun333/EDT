@@ -56,13 +56,13 @@ class ProfesseurController extends AbstractController
     {
 
         if(!is_null($professeur)){
-            $result = json_decode($request->getContent(), true);
-            if(is_null($result)){
+            $data = json_decode($request->getContent(), true);
+            if(is_null($data)){
                 return $this->json(['message'=>'requête mal formattée'],Response::HTTP_BAD_REQUEST);
             }
 
             $avis = (new Avis)
-            ->fromArray($result)
+            ->fromArray($data)
             ->setProfesseur($professeur);
 
             $errors = $validatorInterface->validate($avis);
