@@ -23,6 +23,7 @@ class Cours implements \JsonSerializable
     private ?\DateTimeInterface $dateHeureFin = null;
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
+    #[Assert\Expression('this.validateProfesseur()==true')]
     private ?Professeur $professeur = null;
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
@@ -37,6 +38,15 @@ class Cours implements \JsonSerializable
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
 
+    public function validateProfesseur(): bool
+    {
+       foreach( $this->getProfesseur()->getMatieres() as $matiere)
+        {
+            if($matiere->getTitre() == $this->getMatiere()->getTitre())
+            {return true;};
+        };
+        return false;
+    }
     public function getId(): ?int
     {
         return $this->id;
