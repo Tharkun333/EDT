@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Cours;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @extends ServiceEntityRepository<Cours>
@@ -39,20 +40,26 @@ class CoursRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Cours[] Returns an array of Cours objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Cours[] Returns an array of Cours objects
+    */
+   public function getByDate($date): array
+   {
+    $startDate = clone $date;
+    $startDate->setTime(0, 0, 0);
+
+    $endDate = clone $date;
+    $endDate->setTime(23, 59, 59);
+
+       return $this->createQueryBuilder('c')
+       ->andWhere('c.dateHeureDebut BETWEEN :start_date AND :end_date')
+       ->setParameter('start_date', $startDate)
+       ->setParameter('end_date', $endDate)
+       ->orderBy('c.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Cours
 //    {
