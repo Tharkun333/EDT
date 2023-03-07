@@ -81,7 +81,7 @@ class CoursController extends AbstractController
 
         $coursRepository->save($cours,true);
 
-        return $this->json($data, Response::HTTP_OK);
+        return $this->json($cours, Response::HTTP_OK);
     }
 
     /* DELETE */
