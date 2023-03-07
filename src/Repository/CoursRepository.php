@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Cours;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
@@ -40,6 +41,37 @@ class CoursRepository extends ServiceEntityRepository
         }
     }
 
+/*
+    public function salleIsDisponibleAtThisMoment($salle,$dateDeb,$dateFin): int
+   {
+        $qb = $this->createQueryBuilder('c');
+        $cours = $qb->select('c.id')
+                    ->where(
+                        $qb->expr()->andX(
+                        $qb->expr()->orX(
+                            $qb->expr()->andX(
+                                $qb->expr()->lt('c.dateHeureDebut', ':start_date'),
+                                $qb->expr()->lt(':start_date', 'c.dateHeureFin')
+                            ),
+                            $qb->expr()->andX(
+                                $qb->expr()->gt('c.dateHeureDebut', ':start_date'),
+                                $qb->expr()->lt(':end_date', 'c.dateHeureDebut')
+                            )
+                        ),
+                        $qb->expr()->eq('c.salle', ':salle')
+                            )
+                    )
+                    ->setParameter('start_date', $dateDeb)
+                    ->setParameter('end_date', $dateFin)
+                    ->setParameter('salle', $salle)
+                        ->getQuery()
+                        ->getResult();
+
+        
+        $nbCours = count($cours);
+        return $nbCours;
+   }
+*/
    /**
     * @return Cours[] Returns an array of Cours objects
     */

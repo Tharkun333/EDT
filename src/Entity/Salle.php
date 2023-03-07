@@ -6,8 +6,10 @@ use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
+#[UniqueEntity('numero')]
 class Salle implements \JsonSerializable
 {
     #[ORM\Id]

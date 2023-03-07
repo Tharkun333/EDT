@@ -4,6 +4,10 @@ namespace App\Controller\Api;
 
 use App\Entity\Cours;
 use App\Repository\CoursRepository;
+use App\Repository\MatiereRepository;
+use App\Repository\ProfesseurRepository;
+use App\Repository\SalleRepository;
+use App\Repository\TypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +20,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CoursController extends AbstractController
 {
+    /* GET ALL */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(CoursRepository $repository): JsonResponse
     {
@@ -23,28 +28,15 @@ class CoursController extends AbstractController
           return $this->json($professeurs, Response::HTTP_OK);
     }
 
-    #[Route('/create', name: 'create', methods: ['PUT'])]
-    public function create( Request $request,CoursRepository $coursRepository,ValidatorInterface $validatorInterface): JsonResponse
+    /* GET ONE */
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(?Cours $cours): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        //TODO
-        // $cours = (new Cours)
-        // ->from($data);
-
-        // $errors = $validatorInterface->validate($cours);
-
-        // if ($errors->count() > 0) {
-        //     $messages = [];
-        //     foreach ($errors as $error) {
-        //         $messages[$error->getPropertyPath()] = $error->getMessage();
-        //     }
-        //     return $this->json($messages, Response::HTTP_BAD_REQUEST);
-        // }
-        // $avisRepository->save($avis, true);
-
-        return $this->json($data, Response::HTTP_OK);
+        return !is_null($cours) ? $this->json($cours, Response::HTTP_OK)
+        : $this->json(['message' => 'Ce cours est introuvable'],Response::HTTP_NOT_FOUND);
     }
 
+    /* GET SPECIAL */
     #[Route('/getByDate', name: 'getByDate', methods: ['POST'])]
     public function getByDate( Request $request,CoursRepository $coursRepository,ValidatorInterface $validatorInterface): JsonResponse
     {
@@ -59,10 +51,62 @@ class CoursController extends AbstractController
         return $this->json($cours, Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(?Cours $cours): JsonResponse
+    /* POST */
+    #[Route('/create', name: 'create', methods: ['POST'])]
+    public function create( Request $request,MatiereRepository $matiereRepository,CoursRepository $coursRepository,ProfesseurRepository $professeurRepository,SalleRepository $salleRepository,TypeRepository $typeRepository,ValidatorInterface $validatorInterface): JsonResponse
     {
-        return !is_null($cours) ? $this->json($cours, Response::HTTP_OK)
-        : $this->json(['message' => 'Ce cours est introuvable'],Response::HTTP_NOT_FOUND);
+        $data = json_decode($request->getContent(), true);
+        $cours = new Cours;
+
+        $cours->setMatiere($matiereRepository->find($data['id_matiere']));
+        $cours->setSalle($salleRepository->find($data['id_salle']));
+        $cours->setProfesseur($professeurRepository->find($data['id_professeur']));
+        $cours->setType($typeRepository->find($data['id_type']));
+
+        $dateDeb = new \DateTimeImmutable($data['dateHeureDebut']);
+        $dateFin = new \DateTimeImmutable($data['dateHeureFin']);
+
+        $cours->setDateHeureDebut($dateDeb);
+        $cours->setDateHeureFin($dateFin);
+
+        $errors = $validatorInterface->validate($cours);
+
+        if ($errors->count() > 0) {
+            $messages = [];
+            foreach ($errors as $error) {
+            $messages[$error->getPropertyPath()] = $error->getMessage();
+            }
+                return $this->json($messages, Response::HTTP_BAD_REQUEST);
+        }
+
+        $coursRepository->save($cours,true);
+
+        return $this->json($data, Response::HTTP_OK);
     }
+
+    /* DELETE */
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    public function delete(?Cours $cours,Request $request,CoursRepository $coursRepository,ValidatorInterface $validatorInterface): JsonResponse
+    {
+        if($cours == null)
+        {
+            return $this->json('Aucun cours n\'as était trouvé', Response::HTTP_BAD_REQUEST);
+        }
+
+        $coursRepository->remove($cours,true);
+
+        
+        return $this->json('', Response::HTTP_OK);
+    }
+    /*
+    #[Route('/getBySalleAndDate', name: 'getBySalleAndDate', methods: ['POST'])]
+    public function getBySalleAndDate(Request $request,CoursRepository $coursRepository,ValidatorInterface $validatorInterface): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $nbValue = $coursRepository->salleIsDisponibleAtThisMoment($data['salle'],$data['dateDeb'],$data['dateFin']);
+
+        return $this->json(['isAvailable' => $nbValue==0],Response::HTTP_OK);
+    }
+    */
 }
