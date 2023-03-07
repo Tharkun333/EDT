@@ -1,88 +1,72 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}EDT{% endblock %}</title>
-        
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-       
-        
-        <!-- bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <!-- bootstrap -->     
-        <link rel="stylesheet" href="{{asset('/CSS/allcss.css')}}">
-        </style>
-        <!-- bootstrap -->
-        {% block stylesheets %}
-        {% endblock %}
-     
-        {% block javascripts %}
-        {% endblock %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet"  crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('/CSS/allcss.css')}}">
+    <link rel="stylesheet" href="{{asset('/CSS/side.css')}}">   
+    <title>{% block title %}EDT{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{% endblock %}
     </head>
 
-    <body>
-         <div class="container-fluid-premier">
-            <!-- Haut de pages-->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-4">
-                        
-                        </div>
-                        <div class="col-md-4">
-                        <img alt="Logo" src="{{asset('/image/EDT.png')}}" height="200px" class="rounded-circle" />
-                        </div>
-                        
-                        <div class="col-md-4">
-                        {# {% if is_granted ('ROLE_USER') %}
-                        
-                        <a class="flex-sm-fill text-sm-right nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-                        {% else %}
-                        <a class="flex-sm-fill text-sm-right nav-link" href="{{path('app_login')}}">Connexion</a>
-                        <a class="flex-sm-fill text-sm-right nav-link" href="{{path('inscription')}}">Inscription</a>   
-                        {% endif %} #}
-                        
-                        </div>
-                    </div>
-                    
-                    <div class="row-fluid">
-                        <nav class="nav nav-pills flex-column flex-sm-row nav-justified">
-                        
-                            <a class="flex-sm-fill text-sm-center nav-link" href="{{path('professeur_list')}}">Liste des professeurs</a>
-                            <a class="flex-sm-fill text-sm-center nav-link" href="{{path('cours_list')}}">Liste des cours</a>
-                            
-                             
-                            <a class="flex-sm-fill text-sm-center nav-link" href="{{path('professeur_create')}}">Ajouter un professeur</a>
-                          
-
-                            
-                            
-                
-                                           
-                        </nav>
-                    </div>
+    <body id="body-pd" class="body-pd">
+        <header class="header body-pd" id="header">
+        <div class="header_toggle"> </div>
+        <div class="header_img"> <img src="{{asset('/image/EDT.png')}}" alt=""> </div>
+        </header>
+        <div class="l-navbar show" id="nav-bar">
+            <nav class="nav">
+            <div> 
+                <a href="" class="nav_logo"> 
+                    <i class='bx bx-layer nav_logo-icon'>
+                    </i> 
+                    <span
+                        class="nav_logo-name">Emplois du temps
+                    </span> 
+                </a>
+                <div class="nav_list"> 
+                    <a href="{{path('professeur_list')}}" class="nav_link"> 
+                        <i class='bx bx-user nav_icon'></i>
+                        <span class="nav_name">Professeurs</span> 
+                    </a> 
+                    <a href="{{path('professeur_create')}}" class="nav_link"> 
+                        <i class='bx bx-user-plus nav_icon'></i>
+                        <span class="nav_name">Ajouter un professeur</span> 
+                    </a> 
+                    <a href="{{path('cours_list')}}" class="nav_link"> 
+                        <i class='bx bx-layer nav_icon'></i> 
+                        <span class="nav_name">Cours</span> 
+                    </a> 
+                    <a href="#" class="nav_link"> 
+                        <i class='bx bx-star nav_icon'></i> 
+                        <span class="nav_name">Avis</span> 
+                    </a> 
+                    <a href="#" class="nav_link"> 
+                        <i class='bx bx-spreadsheet nav_icon'></i> 
+                        <span class="nav_name">Matières</span> 
+                    </a> 
                 </div>
-            </div>
+            </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span>
+            </a>
+        </nav>
         </div>
-
-        {% block Contenu %}{% endblock %}
-        {% block PiedPage %}{% endblock %}
-
-
-
-
-
-        
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-                <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <!--Container Main start-->
+        <div class=" bg-light">
+            <h4>Main Components</h4>
+            {% block Contenu %}{% endblock %}
+            {% block PiedPage %}{% endblock %}
+        </div>
+        <!--Container Main end-->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="{{ asset('edt.js') }}"></script>
         <link rel="stylesheet" href="{{asset('edt.css')}}">
     </body>
+</script>
 </html>
