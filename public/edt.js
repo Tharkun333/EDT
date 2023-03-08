@@ -1,6 +1,6 @@
 Vue.createApp({
     template: `
-    <div id="edt">
+<div id="edt">
     <h3>{{ date }}</h3>
         <div class="calendar" >
             <div class="timeline" >
@@ -8,8 +8,8 @@ Vue.createApp({
                 <div class="time-marker" v-for="heure in heures">{{ heure }}</div>
             </div>
             <div class="days">
-                <div class="events">
-                    <div class="event securities" v-for="coursCourant in coursSet" :style="[{'grid-row-start': coursCourant.start},{'grid-row-end': coursCourant.end}]">
+                <div class="events" >
+                    <div @click="showPopup(coursCourant)" class="event securities" v-for="coursCourant in coursSet" :style="[{'grid-row-start': coursCourant.start},{'grid-row-end': coursCourant.end}]">
                         <center>
                             <p class="title" style="text-align: center;" >{{coursCourant.cours.matiere.titre}} {{ coursCourant.cours.salle.numero}}</p>
                             <p style="text-align: center;" >{{coursCourant.cours.professeur.prenom}} {{ coursCourant.cours.professeur.nom}}</p>
@@ -19,10 +19,34 @@ Vue.createApp({
             </div>
         </div>
         <center>
-        <button v-on:click="previousDay()">Jour précédent</button>
-        <button v-on:click="nextDay()">Jour suivant</button>
+            <button v-on:click="previousDay()">Jour précédent</button>
+            <button v-on:click="nextDay()">Jour suivant</button>
         </center>
-    </div>`,
+        <!-- Structure HTML de la popup -->
+    <div class="modal fade popup" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+            {{currentCours?.cours.matiere.titre}} {{ currentCours?.cours.salle.numero}}
+            </h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" v-on:click="closePopup()">
+           
+            </button>
+          </div>
+          <div class="modal-body">
+          Professeur : {{currentCours?.cours.professeur.prenom}} {{ currentCours?.cours.professeur.nom}} <br>
+          De {{currentCours?.heureDeb}} à {{currentCours?.heureFin}}
+          </div>
+          <div class="modal-footer">
+            <button @click="changerUrl(currentCours?.cours.id)" type="button" class="btn btn-secondary" data-dismiss="modal">Noter le cours</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+    
+    `,
     data() {
         return {
             apiBase: 'http://localhost:8000/api/',
@@ -32,12 +56,25 @@ Vue.createApp({
             heures: [],
             pagination: 0,
             date: "",
-            options: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+            options: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+            currentCours: null,
 
         }
     },
 
     methods: {
+
+        changerUrl(id) {
+            window.location.replace(`http://localhost:8000/avisCours/create/${id}`);
+        },
+        showPopup: function(cours) {
+            this.currentCours = cours;
+            console.log(cours)
+            $('#popupModal').modal('show');
+          },
+        closePopup: function() {
+            $('#popupModal').modal('hide');
+          },
         getDate: function(){
             var currentDate = new Date();
             currentDate.setDate(currentDate.getDate()+this.pagination);

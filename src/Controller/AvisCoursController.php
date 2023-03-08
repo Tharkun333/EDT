@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\AvisCours;
+use App\Entity\Cours;
+use App\Entity\Professeur;
 use App\Form\AvisCoursType;
 use App\Repository\AvisCoursRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +29,25 @@ class AvisCoursController extends AbstractController
     public function create(Request $request, AvisCoursRepository $avisCoursRepository): Response
     {
         $avisCours= new AvisCours;
+        $form = $this->createForm(AvisCoursType::class,$avisCours);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $avisCours = $form->getData();
+            $avisCoursRepository->save($avisCours,true);
+
+            return $this->redirectToRoute('avisCours_list');
+        }
+        return $this->render('avisCours/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/create/{id}', name: 'createWithProf', methods: ['GET','POST'])]
+    public function createWithProf(Cours $cours,Request $request, AvisCoursRepository $avisCoursRepository): Response
+    {
+        $avisCours= new AvisCours;
+        $avisCours->setCours($cours);
         $form = $this->createForm(AvisCoursType::class,$avisCours);
 
         $form->handleRequest($request);
