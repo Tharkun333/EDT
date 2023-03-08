@@ -9,6 +9,7 @@ use App\Repository\MatiereRepository;
 use App\Repository\ProfesseurRepository;
 use App\Repository\SalleRepository;
 use App\Repository\TypeRepository;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,15 +125,23 @@ class CoursController extends AbstractController
         
         return $this->json('', Response::HTTP_OK);
     }
-    /*
+    
+
     #[Route('/getBySalleAndDate', name: 'getBySalleAndDate', methods: ['POST'])]
-    public function getBySalleAndDate(Request $request,CoursRepository $coursRepository,ValidatorInterface $validatorInterface): JsonResponse
+    public function getByDateAndSalle(Request $request,CoursRepository $coursRepository,SalleRepository $salleRepository, ValidatorInterface $validatorInterface): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+        $dateDeb = \DateTime::createFromFormat('Y-m-d H:i:s', $data['dateDeb'],new DateTimeZone('UTC'));
+        $dateFin = \DateTime::createFromFormat('Y-m-d H:i:s', $data['dateFin'],new DateTimeZone('UTC'));
+        $coursAtThisDateInThisSalle = $coursRepository->getByDateAndSalle($dateDeb,$salleRepository->find($data['salle']));
 
-        $nbValue = $coursRepository->salleIsDisponibleAtThisMoment($data['salle'],$data['dateDeb'],$data['dateFin']);
 
-        return $this->json(['isAvailable' => $nbValue==0],Response::HTTP_OK);
+        foreach($coursAtThisDateInThisSalle as $cours)
+        {
+            if(($dateDeb > $cours->getDateHeureDebut() && $dateDeb < $cours->getDateHeureFin()) || ($dateDeb < $cours->getDateHeureDebut() && $dateFin > $cours->getDateHeureDebut()))
+            {return $this->json(['response' => false],Response::HTTP_OK);}
+        }
+        return $this->json(['response' => true],Response::HTTP_OK);
     }
-    */
+    
 }

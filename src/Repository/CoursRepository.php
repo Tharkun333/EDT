@@ -41,37 +41,6 @@ class CoursRepository extends ServiceEntityRepository
         }
     }
 
-/*
-    public function salleIsDisponibleAtThisMoment($salle,$dateDeb,$dateFin): int
-   {
-        $qb = $this->createQueryBuilder('c');
-        $cours = $qb->select('c.id')
-                    ->where(
-                        $qb->expr()->andX(
-                        $qb->expr()->orX(
-                            $qb->expr()->andX(
-                                $qb->expr()->lt('c.dateHeureDebut', ':start_date'),
-                                $qb->expr()->lt(':start_date', 'c.dateHeureFin')
-                            ),
-                            $qb->expr()->andX(
-                                $qb->expr()->gt('c.dateHeureDebut', ':start_date'),
-                                $qb->expr()->lt(':end_date', 'c.dateHeureDebut')
-                            )
-                        ),
-                        $qb->expr()->eq('c.salle', ':salle')
-                            )
-                    )
-                    ->setParameter('start_date', $dateDeb)
-                    ->setParameter('end_date', $dateFin)
-                    ->setParameter('salle', $salle)
-                        ->getQuery()
-                        ->getResult();
-
-        
-        $nbCours = count($cours);
-        return $nbCours;
-   }
-*/
    /**
     * @return Cours[] Returns an array of Cours objects
     */
@@ -87,6 +56,26 @@ class CoursRepository extends ServiceEntityRepository
        ->andWhere('c.dateHeureDebut BETWEEN :start_date AND :end_date')
        ->setParameter('start_date', $startDate)
        ->setParameter('end_date', $endDate)
+       ->orderBy('c.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+   public function getByDateAndSalle($date,$salle): array
+   {
+    $startDate = clone $date;
+    $startDate->setTime(0, 0, 0);
+
+    $endDate = clone $date;
+    $endDate->setTime(23, 59, 59);
+
+       return $this->createQueryBuilder('c')
+       ->andWhere('c.dateHeureDebut BETWEEN :start_date AND :end_date')
+       ->andWhere('c.salle = :salle')
+       ->setParameter('start_date', $startDate)
+       ->setParameter('end_date', $endDate)
+       ->setParameter('salle', $salle)
        ->orderBy('c.id', 'ASC')
            ->getQuery()
            ->getResult()

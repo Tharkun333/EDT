@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Symfony\Component\HttpClient\HttpClient;
@@ -36,7 +38,7 @@ class Cours implements \JsonSerializable
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
     #[Assert\Expression('this.validateProfesseur()==true',message:'Vous ne pouvez attribuer un professeur à un cours d\'une matiere qu\'il n\'enseigne pas')]
-   // #[Assert\Expression('this.professeurIsDisponible()==true',message:'Ce professeur est deja affecté à un autre cours à cette période')]
+    //#[Assert\Expression('this.professeurIsDisponible()==true',message:'Ce professeur est deja affecté à un autre cours à cette période')]
 
     private ?Professeur $professeur = null;
 
@@ -227,15 +229,37 @@ class Cours implements \JsonSerializable
         return (\DateTime::createFromFormat('Y-m-d H-i-s',$this->getDateHeureDebut()->format('Y-m-d H-i-s'))->diff((\DateTime::createFromFormat('Y-m-d H-i-s',$this->getDateHeureDebut()->format('Y-m-d H-i-s')))->setTime(0,0,0)))->h < 8 ? false:true;
     }
 
-    public function professeurIsDisponible(CoursRepository $rep): bool
+    /*public function professeurIsDisponible(): bool
     {
+        $httpClient = HttpClient::create();
 
-        return true;
-    }
+        $donnees = [
+            'dateDeb' => $this->getDateHeureDebut()->format('Y-m-d H-i-s'),
+            'dateFin' => $this->getDateHeureFin()->format('Y-m-d H-i-s'),
+            'salle' => $this->getSalle()->getId()
+        ]; 
+        $response = $httpClient->request(
+            'POST',
+            'http://localhost:8000/api/cours/getBySalleAndDate',
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => '',
+                    'Content-Length' => '<calculated when request is sent>'
+                ],
+                'body' => json_encode($donnees)
+            ]
+        );
+
+        var_dump($response->getContent());
+        return $response->getStatusCode() === Response::HTTP_OK ? true : false;
+    }*/
+
 
     /**
      * @return Collection<int, AvisCours>
      */
+    
     public function getAvisCours(): Collection
     {
         return $this->avisCours;
