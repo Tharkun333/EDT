@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Avis;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpClient\Internal\PushedResponse;
 
 /**
  * @extends ServiceEntityRepository<Avis>
@@ -39,6 +40,18 @@ class AvisRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByProfesseur(int $profId): array
+    {
+        $allAvis = $this->findAll();
+        $avisArray = [];
+        foreach($allAvis as $avis)
+        {
+            if($avis->getProfesseur()->getId()==$profId)
+            {array_push($avisArray,$avis);}
+        }
+
+        return $avisArray;
+    }
 //    /**
 //     * @return Avis[] Returns an array of Avis objects
 //     */

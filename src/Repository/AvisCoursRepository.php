@@ -39,6 +39,19 @@ class AvisCoursRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByCours(int $coursId): array
+    {
+        $allAvis = $this->findAll();
+        $avisArray = [];
+        foreach($allAvis as $avis)
+        {
+            if($avis->getCours()->getId()==$coursId)
+            {array_push($avisArray,$avis);}
+        }
+
+        return $avisArray;
+    }
+
 //    /**
 //     * @return AvisCours[] Returns an array of AvisCours objects
 //     */

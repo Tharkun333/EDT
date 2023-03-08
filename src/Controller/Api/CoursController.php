@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Cours;
+use App\Repository\AvisCoursRepository;
 use App\Repository\CoursRepository;
 use App\Repository\MatiereRepository;
 use App\Repository\ProfesseurRepository;
@@ -49,6 +50,31 @@ class CoursController extends AbstractController
         $cours = $coursRepository->getByDate($date);
 
         return $this->json($cours, Response::HTTP_CREATED);
+    }
+
+    #[Route('/{id}/avis/stats', name: 'get_avis_stats', methods: ['GET'])]
+    public function getAvisStats(?Cours $cours,AvisCoursRepository $avisCoursRepository): JsonResponse
+    {
+        if($cours == null)
+        {return $this->json(['message'=>'Impossible de trouver le cours'],Response::HTTP_BAD_REQUEST);}
+
+        $avis = [];
+        $avis = $avisCoursRepository->findAllByCours($cours->getId());
+        $max = 0; $min = 5;$sum = 0;$nbAvis=0;
+
+        foreach($avis as $avisCourant)
+        {
+            $nbAvis+=1;
+            $sum+=$avisCourant->getNote();
+            if($max<$avisCourant->getNote()){$max = $avisCourant->getNote();}
+            if($min>$avisCourant->getNote()){$min = $avisCourant->getNote();}
+        }
+
+        return $this->json([
+            'max'=>$max,
+            'min'=>$min,
+            'nbAvis'=>$nbAvis,
+            'avg'=>$sum/$nbAvis],Response::HTTP_BAD_REQUEST);
     }
 
     /* POST */

@@ -19,22 +19,10 @@ class CoursCrudController extends AbstractCrudController
         return [
             'dateHeureDebut',
             'dateHeureFin',
-            AssociationField::new('type')
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                ]),
-            AssociationField::new('professeur')
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                ]),
-            AssociationField::new('matiere')
-            ->setFormTypeOptions([
-                'by_reference' => false,
-            ]),
+            AssociationField::new('type'),
+            AssociationField::new('professeur'),
+            AssociationField::new('matiere'),
             AssociationField::new('salle')
-            ->setFormTypeOptions([
-                'by_reference' => false,
-            ]),
         ];
     }
     
