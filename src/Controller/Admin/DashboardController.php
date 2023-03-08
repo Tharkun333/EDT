@@ -16,6 +16,7 @@ use App\Entity\Cours;
 use App\Entity\Matiere;
 use App\Entity\Salle;
 use App\Entity\Type;
+use App\Entity\AvisCours;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -50,6 +51,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Avis', 'fas fa-star', Avis::class),
             MenuItem::linkToCrud('Salle', 'fas fa-map-signs', Salle::class),
             MenuItem::linkToCrud('Type', 'fas fa-tags', Type::class),
+            MenuItem::linkToCrud('AvisCours', 'fas fa-star', AvisCours::class),
         ];
     }
 }

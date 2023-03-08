@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/cours', name: 'api_cour_')]
-
+ 
 class CoursController extends AbstractController
 {
     /* GET ALL */
@@ -81,7 +81,7 @@ class CoursController extends AbstractController
 
         $coursRepository->save($cours,true);
 
-        return $this->json($data, Response::HTTP_OK);
+        return $this->json($cours, Response::HTTP_OK);
     }
 
     /* DELETE */
