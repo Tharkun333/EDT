@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block Contenu %}
+
+<div class="row-fluid-formulaire">
+</br><strong>
+
+Création : Saisisser l'avis
+</strong></br>
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+        <div class="col-md-8">
+            {{form_start(form)}}
+
+            <dt><br>
+            {{form_row(form.note)}}
+            </dt>
+            <dt><br>
+            {{form_row(form.commentaire)}}
+            </dt>
+            <dt><br>
+            {{form_row(form.emailEtudiant)}}
+            </dt>
+            <dt><br>
+            {{form_row(form.cours)}}
+            </dt>
+            
+           
+ <br><br>
+            {{form_row(form.Enregistrer)}}
+
+            <a class="btn btn-dark" href="{{ url('avisCours_list') }}" >Annuler</a> 
+        
+             {{form_end(form)}}
+            
+
+        <div>
+
+    <div class="col-md-2">
+    </div>
+</div></br>
+</div>
+
+
+{% endblock %}

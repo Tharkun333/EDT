@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/cours', name: 'api_cour_')]
-
+ 
 class CoursController extends AbstractController
 {
     /* GET ALL */

@@ -16,6 +16,7 @@ use App\Entity\Cours;
 use App\Entity\Matiere;
 use App\Entity\Salle;
 use App\Entity\Type;
+use App\Entity\AvisCours;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -49,6 +50,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Cours', 'fas fa-star', Cours::class),
             MenuItem::linkToCrud('Salle', 'fas fa-star', Salle::class),
             MenuItem::linkToCrud('Type', 'fas fa-star', Type::class),
+            MenuItem::linkToCrud('AvisCours', 'fas fa-star', AvisCours::class),
         ];
     }
 }

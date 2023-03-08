@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/avis', name: 'avis_')]
 class AvisController extends AbstractController
 {
+    /* GET ALL */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(Avis $avis, AvisRepository $avisRepository): JsonResponse
     {
@@ -28,6 +29,7 @@ class AvisController extends AbstractController
 
     }
 
+    /* GET ONE */
     #[Route('/{id}', name: 'update', methods: ['PATCH'])]
     public function update(Avis $avis, AvisRepository $avisRepository, Request $request,  ValidatorInterface $validatorInterface): JsonResponse
     {
