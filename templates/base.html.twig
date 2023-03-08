@@ -35,21 +35,25 @@
                         <i class='bx bx-user nav_icon'></i>
                         <span class="nav_name">Professeurs</span> 
                     </a> 
-                    <a href="{{path('professeur_create')}}" class="nav_link"> 
-                        <i class='bx bx-user-plus nav_icon'></i>
-                        <span class="nav_name">Ajouter un professeur</span> 
-                    </a> 
                     <a href="{{path('cours_list')}}" class="nav_link"> 
-                        <i class='bx bx-layer nav_icon'></i> 
+                        <i class='bx bx-book-open nav_icon'></i> 
                         <span class="nav_name">Cours</span> 
                     </a> 
-                    <a href="#" class="nav_link"> 
+                    <a href="{{ path('matiere_list')}}" class="nav_link"> 
+                        <i class='bx bx-spreadsheet nav_icon'></i> 
+                        <span class="nav_name">Matières</span> 
+                    </a> 
+                    {# <a href="{{path('professeur_create')}}" class="nav_link"> 
+                        <i class='bx bx-user-plus nav_icon'></i>
+                        <span class="nav_name">Ajouter un professeur</span> 
+                    </a>  #}
+                    <a href="{{ path('professeur_note')}}" class="nav_link"> 
                         <i class='bx bx-star nav_icon'></i> 
                         <span class="nav_name">Avis</span> 
                     </a> 
-                    <a href="#" class="nav_link"> 
-                        <i class='bx bx-spreadsheet nav_icon'></i> 
-                        <span class="nav_name">Matières</span> 
+                    <a href="{{ path('cours_edt') }}" class="nav_link"> 
+                        <i class='bx bxs-school nav_icon'></i> 
+                        <span class="nav_name">Agenda</span> 
                     </a> 
                 </div>
             </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span>
@@ -57,8 +61,7 @@
         </nav>
         </div>
         <!--Container Main start-->
-        <div class=" bg-light">
-            <h4>Main Components</h4>
+        <div class="">
             {% block Contenu %}{% endblock %}
             {% block PiedPage %}{% endblock %}
         </div>
@@ -66,7 +69,7 @@
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="{{ asset('edt.js') }}"></script>
-        <link rel="stylesheet" href="{{asset('edt.css')}}">
+        <script src="{{ asset('avis.js') }}"></script>
     </body>
 </script>
 </html>

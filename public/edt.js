@@ -1,148 +1,131 @@
-
-const { createApp } = Vue
-
-createApp({
-    template: 
-`<div id="edt" class="container">
-    <div class="row">
-        <div class="col-8">
-            <h1>Note ton prof</h1>
-            <div class="row">
-                <!-- un professeur -->
-                <div class="col-6" v-for="professeur in professeurs">
-                    <div class="card">
-                        <div class="card-body" :class="{'bg-light' : professeur.id === professeurCourant?.id}">
-                            <div class="card-title"></div>
-                                {{ professeur.prenom }} {{ professeur.nom }}
-                            <div class="card-text">
-                                {{ professeur.email }} <br/>
-                                <span v-for="matiere in professeur.matieres">
-                                    {{ matiere.titre }} {{ matiere.reference }}
-                                </span>
-
-                                <button v-on:click="getAvis(professeur)" class="btn btn-primary mt-3">
-                                    Avis
-                                </button> 
-                            </div>
-                        </div>
+Vue.createApp({
+    template: `
+    <div id="edt">
+    <h3>{{ date }}</h3>
+        <div class="calendar" >
+            <div class="timeline" >
+                <div class="time-marker" ></div>
+                <div class="time-marker" v-for="heure in heures">{{ heure }}</div>
+            </div>
+            <div class="days">
+                <div class="events">
+                    <div class="event securities" v-for="coursCourant in coursSet" :style="[{'grid-row-start': coursCourant.start},{'grid-row-end': coursCourant.end}]">
+                        <center>
+                            <p class="title" style="text-align: center;" >{{coursCourant.cours.matiere.titre}} {{ coursCourant.cours.salle.numero}}</p>
+                            <p style="text-align: center;" >{{coursCourant.cours.professeur.prenom}} {{ coursCourant.cours.professeur.nom}}</p>
+                        </center>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-4" v-if="professeurCourant">
-            <h2>Avis sur {{ professeurCourant.prenom }} {{ professeurCourant.nom }}</h2>
-            <form class="mb-5" v-on:submit.prevent="addAvis()">
-                <div class="form-group">
-                    <label>Note</label>
-                    <select class="form-control" v-model="nouvelAvis.note">
-                        <option>0</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-
-                <div class="form-group" >
-                    <label>Commentaire</label>
-                    <textarea class="form-control" v-model="nouvelAvis.commentaire" required></textarea>
-                </div>
-
-                <div class="form-group" >
-                    <label>Email</label>
-                    <input type="email" class=" form-control"  v-model="nouvelAvis.emailEtudiant" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Ajouter">
-                </div>
-            </form>
-            <ul class="text-danger">
-                <li v-for="error in errors">{{ error }}</li>
-            </ul>
-
-            <div class="card mt-1" v-for="unAvis in avis">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        Note: {{ unAvis.note }} / 5
-                    </h5>
-                    <p class="card-text">
-                        <i>Commentaire de {{ unAvis.emailEtudiant }}</i><br/>
-                        {{ unAvis.commentaire }}
-                    </p>
-                    <button v-on:click="deleteAvis(unAvis)" class="btn btn-primary mt-3">
-                        Supprimer
-                    </button> 
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>`,
+        <center>
+        <button v-on:click="previousDay()">Jour précédent</button>
+        <button v-on:click="nextDay()">Jour suivant</button>
+        </center>
+    </div>`,
     data() {
-    return {
-        apiBase : "http://localhost:8000/api/",
-        professeurs: [],
-        avis: [],
-        professeurCourant: null,
-        nouvelAvis: {},
-        errors: []
-    }
-    },
-    methods: {
-        deleteAvis: async function(avis){
-            try {
-                const response = await axios.delete(this.apiBase + `avis/${avis.id}`);
-                console.log(response.data); 
-                this.avis.splice(this.avis.indexOf(avis),1);
-            } catch (error) {
-                console.error(error);
-            }
-        },
+        return {
+            apiBase: 'http://localhost:8000/api/',
+            cours: [],
+            coursSet: [],
+            heuresBases: ['08H00','09H00','10H00','11H00','12H00','13H00','14H00','15H00','16H00','17H00','18H00'],
+            heures: [],
+            pagination: 0,
+            date: "",
+            options: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
-        addAvis: async function(){
-            try {
-                const response = await axios.post(this.apiBase + `professeurs/${this.professeurCourant.id}/avis`, this.nouvelAvis);
-                console.log(response.data); 
-                this.avis.push(response.data);
-                this.errors = [];
-            } catch (error) {
-                console.error(error);
-                this.errors = Object.values(error.response.data);
-            }
-        },
-
-        createAvis: function(){
-            return{
-                note: 0 ,
-                commentaire: '',
-                emailEtudiant: ''
-            }
-        },
-        getProfesseurs: async function(){
-            try {
-                const response = await axios.get(this.apiBase + 'professeurs');
-                console.log(response.data); 
-                this.professeurs = response.data;
-            } catch (error) {
-                console.error(error);
-            }
-        },
-
-        getAvis: async function(professeur){
-            this.nouvelAvis = this.createAvis();
-            this.professeurCourant = professeur;
-            try {
-                const response = await axios.get(this.apiBase + `professeurs/${professeur.id}/avis`);
-                console.log(response.data); 
-                this.avis = response.data;
-            } catch (error) {
-                console.error(error);
-            }
         }
     },
-    mounted(){
-        this.getProfesseurs();
+
+    methods: {
+        getDate: function(){
+            var currentDate = new Date();
+            currentDate.setDate(currentDate.getDate()+this.pagination);
+            var date_string  = currentDate.toLocaleDateString('fr-FR', this.options);
+            this.date  = date_string.charAt(0).toUpperCase() + date_string.slice(1);
+        },
+
+        nextDay: function(){
+            this.pagination+=1;
+            this.getCoursByDate();
+        },
+        previousDay: function(){
+            this.pagination-=1;
+            this.getCoursByDate();
+        },
+        getCoursByDate: function(){
+            this.getDate();
+            var currentDate = new Date();
+
+            currentDate.setDate(currentDate.getDate()+this.pagination);
+            var dateString = currentDate.getFullYear()+'-';
+
+            dateString += currentDate.getMonth() < 10 ? '0'+(currentDate.getMonth()+1)+'-' : (currentDate.getMonth()+1)+'-';
+            dateString += currentDate.getDate() < 10 ? '0'+currentDate.getDate() : currentDate.getDate();
+
+            axios.post(this.apiBase + 'cours/getByDate',{
+                "date": dateString
+            })
+                .then(response => {
+                    this.cours = response.data;
+                    this.setHeures();
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        setHeures: function() {
+            this.heures = this.heuresBases.slice();
+            console.log(this.cours);
+            this.cours.forEach(element => {
+               
+                var heureDeb = element.dateHeureDebut.date.split(' ')[1].split(':')[0] + 'H' + element.dateHeureDebut.date.split(' ')[1].split(':')[1];
+                var heureFin = element.dateHeureFin.date.split(' ')[1].split(':')[0] + 'H' + element.dateHeureFin.date.split(' ')[1].split(':')[1];
+                
+                if(this.heures.indexOf(heureDeb) == -1)
+                {
+                    this.heures.push(heureDeb);
+                }
+
+                if(this.heures.indexOf(heureFin) == -1)
+                {
+                    this.heures.push(heureFin);
+                }
+                
+            });
+
+           this.heures = this.heures.sort();
+           this.setJsonCours();
+        },
+        setJsonCours: function(){
+            this.coursSet = [];
+            this.cours.forEach(element => {
+                var jsonCour = {
+                    "cours" : {},
+                    "start" : "",
+                    "end" : ""
+                }
+                
+                var heureDeb = element.dateHeureDebut.date.split(' ')[1].split(':')[0] + 'H' + element.dateHeureDebut.date.split(' ')[1].split(':')[1];
+                var heureFin = element.dateHeureFin.date.split(' ')[1].split(':')[0] + 'H' + element.dateHeureFin.date.split(' ')[1].split(':')[1];
+                console.log(this.heures);
+                console.log(this.heures.indexOf(heureDeb));
+                console.log(this.heures.indexOf(heureFin));
+                jsonCour['heureDeb'] = heureDeb;
+                jsonCour['heureFin'] = heureFin;
+                jsonCour['cours'] = element;
+                jsonCour['start'] = this.heures.indexOf(heureDeb)+2;
+                jsonCour['end'] = this.heures.indexOf(heureFin)+2;
+
+                console.log(jsonCour);
+                this.coursSet.push(jsonCour);
+            })
+            console.log(this.coursSet);
+        }
+    },
+
+    mounted() {
+        this.getDate();
+        this.getCoursByDate()
     }
-}).mount('#edt')
+}).mount('#edt');

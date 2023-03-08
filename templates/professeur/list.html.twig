@@ -2,6 +2,7 @@
 
 
 {% block Contenu %}
+<h3>Liste des professeurs</h3>
 <table class="table table-striped table-hover">
     <thead>
         <tr>
@@ -21,8 +22,7 @@
                 <td>{{professor.email}}</td>
                 <td>
                 <a  href="{{path('professeur_edit',{id:professor.id})}}">Editer</a>
-                <a  href="{{path('professeur_delete',{id:professor.id})}}">Supprimer</a>
-                
+                <a  href="{{path('professeur_delete',{id:professor.id})}}">Supprimer</a> 
                 </td>
             </tr>
         </tbody>

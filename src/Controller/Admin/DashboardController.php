@@ -44,11 +44,12 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::linkToCrud('Professeur', 'fas fa-chalkboard-teacher', Professeur::class),
-            MenuItem::linkToCrud('Matiere', 'fas fa-book-open', Matiere::class),
+            MenuItem::linkToCrud('Matiere', 'fas fa-list-alt', Matiere::class),
+            MenuItem::linkToCrud('Cours', 'fas fa-book-open', Cours::class),
+            MenuItem::section('BEBOU'),
             MenuItem::linkToCrud('Avis', 'fas fa-star', Avis::class),
-            MenuItem::linkToCrud('Cours', 'fas fa-star', Cours::class),
-            MenuItem::linkToCrud('Salle', 'fas fa-star', Salle::class),
-            MenuItem::linkToCrud('Type', 'fas fa-star', Type::class),
+            MenuItem::linkToCrud('Salle', 'fas fa-map-signs', Salle::class),
+            MenuItem::linkToCrud('Type', 'fas fa-tags', Type::class),
         ];
     }
 }

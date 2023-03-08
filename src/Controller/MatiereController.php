@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use App\Repository\MatiereRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/matiere', name: 'matiere_')]
 class MatiereController extends AbstractController
 {
-    #[Route('/matiere', name: 'app_matiere')]
-    public function index(): Response
+    #[Route('', name: 'list')]
+    public function list(MatiereRepository $repositoryMatiere): Response
     {
-        return $this->render('matiere/index.html.twig', [
-            'controller_name' => 'MatiereController',
+        $list = $repositoryMatiere->findAll();
+
+        return $this->render('matiere/list.html.twig', [
+            'list' => $list,
         ]);
     }
 }

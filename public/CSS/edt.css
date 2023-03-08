@@ -1,0 +1,99 @@
+:root {
+    --numDays: 5;
+    --numHours: 12;
+    --timeHeight: 60px;
+    --calBgColor: #afafaf;
+    --eventBorderColor: #130c42;
+    --eventColor1: #beb4b3;
+    --eventColor2: #fafaa3;
+    --eventColor3: #e2f8ff;
+    --eventColor4: #6876b3;
+}
+
+.calendar {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto 1fr;
+    margin: 2rem;
+}
+
+.timeline {
+    display: grid;
+    grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+}
+
+.days {
+    display: grid;
+    grid-column: 2;
+    gap: 5px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
+}
+
+.events {
+    display: grid;
+    grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+    border-radius: 5px;
+    background: var(--calBgColor);
+}
+
+.title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.event {
+    border: 1px solid var(--eventBorderColor);
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: 0 0.5rem;
+    background: white;
+}
+
+.space,
+.date {
+    height: 60px
+}
+
+
+body {
+    font-family: system-ui, sans-serif;
+}
+
+.corp-fi {
+    background: var(--eventColor1);
+}
+
+.ent-law {
+    background: var(--eventColor2);
+}
+
+.writing {
+    background: var(--eventColor3);
+}
+
+.securities {
+    background: var(--eventColor4);
+}
+
+.date {
+    display: flex;
+    gap: 1em;
+}
+
+.date-num {
+    font-size: 3rem;
+    font-weight: 600;
+    display: inline;
+}
+
+.date-day {
+    display: inline;
+    font-size: 3rem;
+    font-weight: 100;
+}
+
+button {
+    width: 150px;
+    margin-left: 5px;
+    margin-right: 5px;
+}

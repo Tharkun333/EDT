@@ -19,4 +19,11 @@ class CoursController extends AbstractController
             'list' => $list,
         ]);
     }
+
+    #[Route('/edt', name: 'edt')]
+    public function note(): Response
+    {
+        return $this->render('cours/edt.html.twig');
+    }
+
 }
