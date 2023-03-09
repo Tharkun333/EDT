@@ -21,8 +21,10 @@
                 <td>{{professor.prenom}}</td>
                 <td>{{professor.email}}</td>
                 <td>
-                <a  href="{{path('professeur_edit',{id:professor.id})}}">Editer</a>
-                <a  href="{{path('professeur_delete',{id:professor.id})}}">Supprimer</a> 
+                {% if app.user.email == professor.email %}
+                    <a  href="{{path('professeur_edit',{id:professor.id})}}">Editer</a>
+                {% endif %}
+                
                 </td>
             </tr>
         </tbody>
