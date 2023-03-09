@@ -4,62 +4,58 @@
 
 <div class="row-fluid-formulaire">
 </br><strong>
-
 Création : Saisisser les caractéristique du professeur
 </strong></br>
-
-</strong></br>
-<center>
-<div class="row">
-<div class="col-md-12"></div>
-    {{form_start(form)}}
-    <div class="col-md-3"></div>
-    <div class="col-md-6"> 
-        <div class="form-group colLabel">
-            {{ form_label(form.dateHeureDebut, 'Heure de debut', {'label_attr': {'class': 'control-label'}}) }}
-            {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control datepicker','date-date-format':'mm/dd/yyyy'}}) }}
-            {{ form_errors(form.dateHeureDebut)}}
+    <center>
+        <div class="row">
+                {{form_start(form)}}
+                <div class="col-md-3"></div>
+                    <div class="col-md-6"> 
+                        <div class="form-group colLabel">
+                            {{ form_label(form.dateHeureDebut, 'Heure de debut', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control datepicker','date-date-format':'mm/dd/yyyy'}}) }}
+                            {{ form_errors(form.dateHeureDebut)}}
+                        </div>
+                        <div class="form-group colLabel">
+                            {{ form_label(form.dateHeureFin, 'Heure de fin', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(form.dateHeureFin, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.dateHeureFin)}}
+                        </div>
+                        <div class="form-group colLabel">
+                            {{ form_label(form.professeur, 'Professeur en charge', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(form.professeur, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.professeur)}}
+                        </div>
+                        <div class="form-group colLabel">
+                            {{ form_label(form.matiere, 'Matiere', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(form.matiere, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.matiere)}}
+                        </div>
+                        <div class="form-group colLabel">
+                            {{ form_label(form.salle, 'Salle', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(form.salle, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.salle)}}
+                        </div>
+                        <div class="form-group colLabel">
+                            {{ form_label(form.type, 'Type', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.type)}}
+                        </div>
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col-md-8"></div>
+                            <div class="col-md-2"> 
+                                <a class="btn btn-secondary" href="{{ url('avisCours_list') }}" >Annuler</a> 
+                            </div>
+                            <div class="col-md-2"> 
+                                {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-md-3"></div>
+                {{form_end(form)}}
         </div>
-        <div class="form-group colLabel">
-            {{ form_label(form.dateHeureFin, 'Heure de fin', {'label_attr': {'class': 'control-label'}}) }}
-            {{ form_widget(form.dateHeureFin, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.dateHeureFin)}}
-        </div>
-        <div class="form-group colLabel">
-            {{ form_label(form.professeur, 'Professeur en charge', {'label_attr': {'class': 'control-label'}}) }}
-            {{ form_widget(form.professeur, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.professeur)}}
-        </div>
-        <div class="form-group colLabel">
-            {{ form_label(form.matiere, 'Matiere', {'label_attr': {'class': 'control-label'}}) }}
-            {{ form_widget(form.matiere, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.matiere)}}
-        </div>
-        <div class="form-group colLabel">
-            {{ form_label(form.salle, 'Salle', {'label_attr': {'class': 'control-label'}}) }}
-            {{ form_widget(form.salle, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.salle)}}
-        </div>
-        <div class="form-group colLabel">
-            {{ form_label(form.type, 'Type', {'label_attr': {'class': 'control-label'}}) }}
-            {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.type)}}
-        </div>
-        <div class="row" style="margin-top: 10px">
-            <div class="col-md-8"></div>
-            <div class="col-md-2"> 
-                <a class="btn btn-secondary" href="{{ url('avisCours_list') }}" >Annuler</a> 
-            </div>
-            <div class="col-md-2"> 
-                {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
-            </div>
-        </div>
-    {{form_end(form)}}
-    </div>
-    <div class="col-md-3"></div>
+    </center>
 </div>
-</div>
-</center>
 <style>
 
 .colLabel{

@@ -10,6 +10,7 @@
         <th scope="col">Heure de debut</th>
         <th scope="col">Heure de fin</th>
         <th scope="col">Type</th>
+        <th scope="col">professeur</th>
         <th scope="col">Action</th>
         </tr>
     </thead>
@@ -20,10 +21,12 @@
                 <td>{{cour.toStringDateDebut}}</td>
                 <td>{{cour.toStringDateFin}}</td>
                 <td>{{cour.type}}</td>
+                <td>{{cour.professeur}}</td>
                 <td>
-                <a  href="#">Editer</a>
-                <a  href="#">Supprimer</a>
-                
+                {% if app.user.email == cour.professeur.email %}
+                    <a  href="{{ path('cours_edit',{id:cour.id}) }}">Editer</a>
+                    <a  href="#">Supprimer</a>
+                {% endif %}        
                 </td>
             </tr>
         </tbody>

@@ -36,7 +36,8 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/professeur, roles: [ROLE_PROF, ROLE_ELEVE] }
-         - { path: ^/cours, roles: [ROLE_PROF, ROLE_ELEVE] }
+         - { path: ^/cours/edt, roles: ROLE_ELEVE }
+         - { path: ^/cours, roles: ROLE_PROF }
 
     role_hierarchy:
         ROLE_ADMIN: [ROLE_PROF, ROLE_ELEVE]

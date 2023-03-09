@@ -68,6 +68,10 @@
                     <i class='bx bx-book-open nav_icon'></i> 
                     <span class="nav_name">Cours</span> 
                 </a> 
+                <a href="{{path('cours_create')}}" class="nav_link"> 
+                    <i class='bx bx-book-open nav_icon'></i> 
+                    <span class="nav_name">Créer un cours</span> 
+                </a> 
                 {% endif %} 
                 {% if is_granted ('ROLE_ELEVE') %}
                     <a href="{{ path('cours_edt') }}" class="nav_link"> 
