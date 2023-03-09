@@ -19,7 +19,6 @@ class TypeCrudController extends AbstractCrudController
     {
         return [
             'nom',
-            AssociationField::new('cours'),
         ];
     }
     

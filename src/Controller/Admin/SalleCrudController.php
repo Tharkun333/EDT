@@ -17,7 +17,6 @@ class SalleCrudController extends AbstractCrudController
     {
         return [
             'numero',
-            AssociationField::new('cours'),
         ];
     }
 }

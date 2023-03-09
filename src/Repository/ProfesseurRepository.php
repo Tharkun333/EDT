@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Professeur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @extends ServiceEntityRepository<Professeur>
@@ -32,11 +33,14 @@ class ProfesseurRepository extends ServiceEntityRepository
 
     public function remove(Professeur $entity, bool $flush = false): void
     {
-        $this->getEntityManager()->remove($entity);
+        if ($entity->getCours()->count() > 0){
+            $this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }  
+
     }
 
 //    /**
