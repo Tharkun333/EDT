@@ -9,7 +9,7 @@ Création : Saisisser les caractéristique du cours
     <center>
         <div class="row">
                 {{form_start(form)}}
-                {# <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
                     <div class="col-md-6"> 
                         <div class="form-group colLabel">
                             {{ form_label(form.dateHeureDebut, 'Heure de debut', {'label_attr': {'class': 'control-label'}}) }}
@@ -51,14 +51,8 @@ Création : Saisisser les caractéristique du cours
                             </div>
                         </div>
                     </div>
-                <div class="col-md-3"></div> #}
+                <div class="col-md-3"></div>
             
-            {{form_row(form.dateHeureDebut)}}
-            {{form_row(form.dateHeureFin)}}
-            {{form_row(form.professeur)}}
-            {{form_row(form.matiere)}}
-            {{form_row(form.salle)}}
-            {{form_row(form.type)}}
             {{form_end(form)}}
         </div>
     </center>
