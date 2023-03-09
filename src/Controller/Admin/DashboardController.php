@@ -17,6 +17,7 @@ use App\Entity\Matiere;
 use App\Entity\Salle;
 use App\Entity\Type;
 use App\Entity\AvisCours;
+use App\Entity\User;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -44,14 +45,23 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         return [
+            MenuItem::section('Utilisateur'),
+            MenuItem::linkToCrud('Compte', 'fas fa-chalkboard-user', User::class),
             MenuItem::linkToCrud('Professeur', 'fas fa-chalkboard-teacher', Professeur::class),
+
+            MenuItem::section('Gestion'),
             MenuItem::linkToCrud('Matiere', 'fas fa-list-alt', Matiere::class),
             MenuItem::linkToCrud('Cours', 'fas fa-book-open', Cours::class),
-            MenuItem::section('BEBOU'),
-            MenuItem::linkToCrud('Avis', 'fas fa-star', Avis::class),
             MenuItem::linkToCrud('Salle', 'fas fa-map-signs', Salle::class),
             MenuItem::linkToCrud('Type', 'fas fa-tags', Type::class),
-            MenuItem::linkToCrud('AvisCours', 'fas fa-star', AvisCours::class),
+            
+            MenuItem::section('Avis'),
+            MenuItem::linkToCrud('Avis des professeurs', 'fas fa-star', Avis::class),
+            MenuItem::linkToCrud('Avis des cours', 'fas fa-star', AvisCours::class),
+
+            MenuItem::section('Menu'),
+            MenuItem::linkToRoute('Application', 'fa fa-chevron-left','app_login'),
+
         ];
     }
 }

@@ -48,6 +48,13 @@
                     </span> 
                 </a>
                 <div class="nav_list">
+                {% if is_granted ('ROLE_ADMIN') %}
+                    <br>
+                    <a href="{{ path('admin')}}" class="nav_link"> 
+                        <i class='bx bxl-netlify nav_icon'></i> 
+                        <span class="nav_name">Admin</span> 
+                    </a>  
+                {% else %}    
                 {% if is_granted ('ROLE_PROF') %}
                 <a href="{{path('professeur_list')}}" class="nav_link"> 
                         <i class='bx bx-user nav_icon'></i>
@@ -59,13 +66,13 @@
                 </a> 
                 {% endif %} 
                 {% if is_granted ('ROLE_ELEVE') %}
-                    <a href="{{ path('professeur_note')}}" class="nav_link"> 
-                        <i class='bx bx-star nav_icon'></i> 
-                        <span class="nav_name">Note tes Profs</span> 
-                    </a> 
                     <a href="{{ path('cours_edt') }}" class="nav_link"> 
                         <i class='bx bxs-school nav_icon'></i> 
                         <span class="nav_name">Agenda</span> 
+                    </a> 
+                    <a href="{{ path('professeur_note')}}" class="nav_link"> 
+                        <i class='bx bx-star nav_icon'></i> 
+                        <span class="nav_name">Note tes Profs</span> 
                     </a> 
                 {% endif %} 
                 {% if app.user %}
@@ -78,7 +85,7 @@
                     <span class="nav_name">Matières</span> 
                 </a>   
                 {% endif %}
-  
+                {% endif %} 
                 </div>
             </div> 
             {% if app.user %}
