@@ -20,11 +20,6 @@
                 <td>{{avisCours.Commentaire}}</td>
                 <td>{{avisCours.emailEtudiant}}</td>
                 <td>{{avisCours.cours}}</td>
-                <td>
-                <a  href="{{path('avisCours_edit',{id:avisCours.id})}}">Editer</a>
-                <a  href="{{path('avisCours_delete',{id:avisCours.id})}}">Supprimer</a>
-                
-                </td>
             </tr>
         </tbody>
     {% endfor %}
