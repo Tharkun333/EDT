@@ -25,7 +25,7 @@
                 <td>
                 {% if app.user.email == cour.professeur.email %}
                     <a  href="{{ path('cours_edit',{id:cour.id}) }}">Editer</a>
-                    <a  href="#">Supprimer</a>
+                    <a  href="{{ path('cours_delete',{id:cour.id}) }}">Supprimer</a>
                 {% endif %}        
                 </td>
             </tr>

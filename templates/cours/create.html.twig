@@ -4,12 +4,12 @@
 
 <div class="row-fluid-formulaire">
 </br><strong>
-Création : Saisisser les caractéristique du professeur
+Création : Saisisser les caractéristique du cours
 </strong></br>
     <center>
         <div class="row">
                 {{form_start(form)}}
-                <div class="col-md-3"></div>
+                {# <div class="col-md-3"></div>
                     <div class="col-md-6"> 
                         <div class="form-group colLabel">
                             {{ form_label(form.dateHeureDebut, 'Heure de debut', {'label_attr': {'class': 'control-label'}}) }}
@@ -44,15 +44,22 @@ Création : Saisisser les caractéristique du professeur
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-8"></div>
                             <div class="col-md-2"> 
-                                <a class="btn btn-secondary" href="{{ url('avisCours_list') }}" >Annuler</a> 
+                                <a class="btn btn-secondary" href="{{ url('cours_list') }}" >Annuler</a> 
                             </div>
                             <div class="col-md-2"> 
                                 {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
                             </div>
                         </div>
                     </div>
-                <div class="col-md-3"></div>
-                {{form_end(form)}}
+                <div class="col-md-3"></div> #}
+            
+            {{form_row(form.dateHeureDebut)}}
+            {{form_row(form.dateHeureFin)}}
+            {{form_row(form.professeur)}}
+            {{form_row(form.matiere)}}
+            {{form_row(form.salle)}}
+            {{form_row(form.type)}}
+            {{form_end(form)}}
         </div>
     </center>
 </div>

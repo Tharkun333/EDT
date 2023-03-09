@@ -60,6 +60,7 @@ class Cours implements \JsonSerializable
 
     public function __construct()
     {
+
         $this->avisCours = new ArrayCollection();
     }
 

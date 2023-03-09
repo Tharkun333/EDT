@@ -65,4 +65,12 @@ class CoursController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/delete', name: 'delete', methods: ['GET','POST'])]
+    public function delete(Request $request, CoursRepository $coursRepository, Cours $cours): Response
+    {
+ 
+        $coursRepository->remove($cours,true);
+        return $this->redirectToRoute('cours_list');
+    }
+
 }
