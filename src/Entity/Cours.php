@@ -146,6 +146,7 @@ class Cours implements \JsonSerializable
         }
         return sprintf('%s %s de %s à %s %s en %s', $this->type, $this->matiere, $this->professeur , $this->dateHeureDebut, $this->dateHeureFin, $this->salle);
        
+        
     }
 
     public function jsonSerialize(): mixed
