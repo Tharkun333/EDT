@@ -38,7 +38,6 @@ class MatiereRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
 //    /**
 //     * @return Matiere[] Returns an array of Matiere objects
 //     */

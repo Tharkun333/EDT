@@ -10,18 +10,22 @@
         <th scope="col">Tire</th>
         <th scope="col">Reference</th>
         <th scope="col">Professeur(s)</th>
+        <th scope="col">Moyenne</th>
         </tr>
     </thead>
-    {% for matieres in list %}
+    {% set cpt = 0 %}
+    {% for avisWithNote in list %}
         <tbody>
             <tr>
-                <th scope="row" class="align-middle" >{{matieres.id}}</th>
-                <td class="align-middle">{{matieres.titre}}</td>
-                <td class="align-middle">{{matieres.reference}}</td>
-                <td class="align-middle">{% for professeur in matieres.professeurs %}
+                <th scope="row" class="align-middle" >{{avisWithNote.id}}</th>
+                <td class="align-middle">{{avisWithNote.titre}}</td>
+                <td class="align-middle">{{avisWithNote.reference}}</td>
+                <td class="align-middle">{% for professeur in avisWithNote.professeurs %}
                 {{professeur.prenom}} {{professeur.nom}} <br>
                 {% endfor %}            
                 </td>
+                <td class="align-middle">{{notes[cpt]}}</td>           
+                {% set cpt = cpt +1 %}
             </tr>
         </tbody>
     {% endfor %}
