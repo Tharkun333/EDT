@@ -60,6 +60,10 @@
                         <i class='bx bx-user nav_icon'></i>
                         <span class="nav_name">Professeurs</span> 
                 </a> 
+                <a href="{{ path('matiere_list')}}" class="nav_link"> 
+                    <i class='bx bx-spreadsheet nav_icon'></i> 
+                    <span class="nav_name">Matières</span> 
+                </a> 
                 <a href="{{path('cours_list')}}" class="nav_link"> 
                     <i class='bx bx-book-open nav_icon'></i> 
                     <span class="nav_name">Cours</span> 
@@ -70,20 +74,21 @@
                         <i class='bx bxs-school nav_icon'></i> 
                         <span class="nav_name">Agenda</span> 
                     </a> 
+                    <a href="{{ path('matiere_list')}}" class="nav_link"> 
+                        <i class='bx bx-spreadsheet nav_icon'></i> 
+                        <span class="nav_name">Matières</span> 
+                    </a>    
                     <a href="{{ path('professeur_note')}}" class="nav_link"> 
                         <i class='bx bx-star nav_icon'></i> 
                         <span class="nav_name">Note tes Profs</span> 
                     </a> 
+                    
                 {% endif %} 
                 {% if app.user %}
                 <a href="{{ path('avisCours_list')}}" class="nav_link"> 
                     <i class='bx bx-star nav_icon'></i> 
                     <span class="nav_name">Avis cours</span> 
-                </a>
-                <a href="{{ path('matiere_list')}}" class="nav_link"> 
-                    <i class='bx bx-spreadsheet nav_icon'></i> 
-                    <span class="nav_name">Matières</span> 
-                </a>   
+                </a>  
                 {% endif %}
                 {% endif %} 
                 </div>
