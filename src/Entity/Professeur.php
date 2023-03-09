@@ -36,7 +36,7 @@ class Professeur implements \JsonSerializable
     #[ORM\ManyToMany(targetEntity: Matiere::class, inversedBy: 'professeurs')]
     private Collection $matieres;
 
-    #[ORM\OneToMany(mappedBy: 'professeur', targetEntity: Cours::class)]
+    #[ORM\OneToMany(mappedBy: 'professeur', targetEntity: Cours::class, orphanRemoval: true)]
     private Collection $cours;
 
     public function __construct()

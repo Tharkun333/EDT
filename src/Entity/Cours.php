@@ -141,7 +141,11 @@ class Cours implements \JsonSerializable
 
     public function __toString()
     {
-        return sprintf('%s %s de %s à %s %s en %s', $this->getType(), $this->getMatiere()->getTitre(), $this->getProfesseur()->getNom() , $this->dateHeureDebut->format('Y-m-d H:i:s'), $this->dateHeureFin->format('Y-m-d H:i:s'), $this->getSalle());
+        if($this->getMatiere()){
+            return sprintf('%s %s de %s à %s %s en %s', $this->getType(), $this->getMatiere()->getTitre(), $this->getProfesseur()->getNom() , $this->dateHeureDebut->format('Y-m-d H:i:s'), $this->dateHeureFin->format('Y-m-d H:i:s'), $this->getSalle());
+        }
+        return sprintf('%s %s de %s à %s %s en %s', $this->type, $this->matiere, $this->professeur , $this->dateHeureDebut, $this->dateHeureFin, $this->salle);
+       
     }
 
     public function jsonSerialize(): mixed
