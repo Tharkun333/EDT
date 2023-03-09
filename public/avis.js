@@ -74,11 +74,13 @@ createApp({
                         <i>Commentaire de {{ unAvis.emailEtudiant }}</i><br/>
                         {{ unAvis.commentaire }}
                     </p>
-                    <button v-on:click="deleteAvis(unAvis)" class="btn btn-primary mt-3">
+                    <button v-if="unAvis.emailEtudiant == connectedUser.email" v-on:click="deleteAvis(unAvis)" class="btn btn-primary mt-3">
                         Supprimer
+                    </button>
+                    <button v-if="unAvis.emailEtudiant == connectedUser.email" v-on:click="editAvis(unAvis)" class="btn btn-primary mt-3">
+                        Editer
                     </button> 
-                </div>
-                
+                </div> 
             </div>
         </div>
     </div>
@@ -90,14 +92,33 @@ createApp({
         avis: [],
         professeurCourant: null,
         nouvelAvis: {},
-        errors: []
+        errors: [],
+        connectedUser: {}
     }
     },
     methods: {
+        editAvis: async function(avis)
+        {
+            try {
+                const response = await axios.post(this.apiBase + `avis/update/${avis.id}`, avis);
+                this.errors = [];
+            } catch (error) {
+                console.error(error);
+                this.errors = Object.values(error.response.data);
+            }
+        },
+        getConnectedUser: async function()
+        {
+            try {
+                const response = await axios.get(this.apiBase + `user`);
+                this.connectedUser = response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        },
         deleteAvis: async function(avis){
             try {
                 const response = await axios.delete(this.apiBase + `avis/${avis.id}`);
-                console.log(response.data); 
                 this.avis.splice(this.avis.indexOf(avis),1);
             } catch (error) {
                 console.error(error);
@@ -147,5 +168,6 @@ createApp({
     },
     mounted(){
         this.getProfesseurs();
+        this.getConnectedUser();
     }
 }).mount('#avis')

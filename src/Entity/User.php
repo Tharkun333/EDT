@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSerializable 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -101,5 +101,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return sprintf('%s %s', $this->email ,$this->password );
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'email' => $this->getEmail()
+        ];
     }
 }
