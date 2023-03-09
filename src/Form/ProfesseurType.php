@@ -17,6 +17,7 @@ class ProfesseurType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('email')
+            ->add('matieres')
             ->add('Enregistrer', SubmitType::class)
         ;
     }

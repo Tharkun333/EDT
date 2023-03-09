@@ -52,6 +52,7 @@ class AvisCoursController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            var_dump('ughvjbk,');
             $avisCours = $form->getData();
             $avisCoursRepository->save($avisCours,true);
 
