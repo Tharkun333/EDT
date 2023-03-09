@@ -2,12 +2,12 @@
     --numDays: 5;
     --numHours: 12;
     --timeHeight: 60px;
-    --calBgColor: #afafaf;
-    --eventBorderColor: #130c42;
+    --calBgColor: #f8f8f8;
+    --eventBorderColor: #ffffff;
     --eventColor1: #beb4b3;
     --eventColor2: #fafaa3;
     --eventColor3: #e2f8ff;
-    --eventColor4: #6876b3;
+    --eventColor4: #acb8f1;
 }
 
 .calendar {
