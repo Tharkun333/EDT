@@ -8,27 +8,41 @@
 Création : Saisisser l'avis
 </strong></br>
 
-<div class="row">
-    <div class="col-md-2">
-    </div>
-        <div class="col-md-8">
-            {{form_start(form)}}
 
-            <dt><br>
-            {{form_row(form.note)}}
-            </dt>
-            <dt><br>
-            {{form_row(form.commentaire)}}
-            </dt>
-            <dt><br>
-            {{form_row(form.emailEtudiant)}}
-            </dt>
-            <dt><br>
-            {{form_row(form.cours)}}
-            </dt>
-            
-           
- <br><br>
+{{form_start(form)}}
+<div class="row mt-2 mb-2">
+    <div class="col-2">
+        {{form_label(form.note)}}
+    </div>
+    <div class="col-8 colWidget">
+        {{form_widget(form.note)}}
+    </div>
+</div>
+<div class="row mt-2 mb-2">
+    <div class="col-md-2">
+        {{form_label(form.commentaire)}}
+    </div>
+    <div class="col-md-8 colWidget">
+        {{form_widget(form.commentaire)}}
+    </div>
+</div>
+<div class="row mt-2 mb-2">
+    <div class="col-md-2">
+        {{form_label(form.emailEtudiant)}}
+    </div>
+    <div class="col-md-8 colWidget">
+        {{form_widget(form.emailEtudiant)}}
+    </div>
+</div>
+<div class="row mt-2 mb-2">
+    <div class="col-md-2 ">
+        {{form_label(form.cours)}}
+    </div>
+    <div class="col-md-8 colWidget">
+        {{form_widget(form.cours)}}
+    </div>
+</div>
+
             {{form_row(form.Enregistrer)}}
 
             <a class="btn btn-dark" href="{{ url('avisCours_list') }}" >Annuler</a> 
@@ -43,5 +57,11 @@ Création : Saisisser l'avis
 </div></br>
 </div>
 
+<style>
+
+.colWidget{
+    text-align: left;
+}
+</style>
 
 {% endblock %}

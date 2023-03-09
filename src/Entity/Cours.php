@@ -9,13 +9,15 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as assertCustom;
 
 use Symfony\Component\HttpClient\HttpClient;
 
 
 #[ORM\Entity(repositoryClass: CoursRepository::class)]
+#[assertCustom\SalleIsDisponible]
+#[assertCustom\ProfesseurIsDisponible]
 class Cours implements \JsonSerializable 
 {
     #[ORM\Id]
@@ -24,22 +26,20 @@ class Cours implements \JsonSerializable
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Expression('this.debutDateNotInThePast()==true',message:'Vous ne pouvez creer de cours dans le passe Marty')]
+    #[Assert\Expression('this.debutDateNotInThePast()==true',message:'Vous ne pouvez creer de cours dans le passé, Marty !')]
     #[Assert\Expression('this.coursCantGoThroughLunchBreak()==true',message:'')]
-    #[Assert\Expression('this.startDateOutOfBounds()==true',message:'Vous ne pouvez creer de cours depassant des limites horaires imposées (8H minimum)')]
+    #[Assert\Expression('this.startDateOutOfBounds()==true',message:'Vous ne pouvez creer de cours depassant des limites horaires imposées (8H minimum) !')]
     private ?\DateTimeInterface $dateHeureDebut = null;
     
-    #[Assert\Expression('this.endDateNotBeforeStart()==true',message:'Vous ne pouvez creer de cours qui se termine avant commencement')]
-    #[Assert\Expression('this.coursLengthValid()==true',message:'Vous ne pouvez creer de cours durant moins de 1H ou plus de 2H')]
-    #[Assert\Expression('this.coursCantGoThroughLunchBreak()==true',message:'Vous ne pouvez creer de cours enpiétant sur la pause repas')]
-    #[Assert\Expression('this.endDateOutOfBounds()==true',message:'Vous ne pouvez creer de cours depassant des limites horaires imposées (18H maximum)')]
+    #[Assert\Expression('this.endDateNotBeforeStart()==true',message:'Vous ne pouvez creer de cours qui se termine avant commencement !')]
+    #[Assert\Expression('this.coursLengthValid()==true',message:'Vous ne pouvez creer de cours durant moins de 1H ou plus de 2H ou creer un cours sur plusieurs jours !')]
+    #[Assert\Expression('this.coursCantGoThroughLunchBreak()==true',message:'Vous ne pouvez creer de cours enpiétant sur la pause repas !')]
+    #[Assert\Expression('this.endDateOutOfBounds()==true',message:'Vous ne pouvez creer de cours depassant des limites horaires imposées (18H maximum) !')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureFin = null;
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
-    #[Assert\Expression('this.validateProfesseur()==true',message:'Vous ne pouvez attribuer un professeur à un cours d\'une matiere qu\'il n\'enseigne pas')]
-    //#[Assert\Expression('this.professeurIsDisponible()==true',message:'Ce professeur est deja affecté à un autre cours à cette période')]
-
+    #[Assert\Expression('this.validateProfesseur()==true',message:'Vous ne pouvez attribuer un professeur à un cours d\'une matiere qu\'il n\'enseigne pas !')]
     private ?Professeur $professeur = null;
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
@@ -204,7 +204,7 @@ class Cours implements \JsonSerializable
     public function coursLengthValid(): bool
     {
         $interval = \DateTime::createFromFormat('Y-m-d H-i-s',$this->getDateHeureDebut()->format('Y-m-d H-i-s'))->diff(\DateTime::createFromFormat('Y-m-d H-i-s',$this->getDateHeureFin()->format('Y-m-d H-i-s')));
-        $length = $interval->i + $interval->h*60;
+        $length = $interval->i + $interval->h*60 + $interval->d*24*60;
         return $length < 60 || $length > 120 ? false:true;
     }
 
@@ -228,32 +228,6 @@ class Cours implements \JsonSerializable
     {
         return (\DateTime::createFromFormat('Y-m-d H-i-s',$this->getDateHeureDebut()->format('Y-m-d H-i-s'))->diff((\DateTime::createFromFormat('Y-m-d H-i-s',$this->getDateHeureDebut()->format('Y-m-d H-i-s')))->setTime(0,0,0)))->h < 8 ? false:true;
     }
-
-    /*public function professeurIsDisponible(): bool
-    {
-        $httpClient = HttpClient::create();
-
-        $donnees = [
-            'dateDeb' => $this->getDateHeureDebut()->format('Y-m-d H-i-s'),
-            'dateFin' => $this->getDateHeureFin()->format('Y-m-d H-i-s'),
-            'salle' => $this->getSalle()->getId()
-        ]; 
-        $response = $httpClient->request(
-            'POST',
-            'http://localhost:8000/api/cours/getBySalleAndDate',
-            [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => '',
-                    'Content-Length' => '<calculated when request is sent>'
-                ],
-                'body' => json_encode($donnees)
-            ]
-        );
-
-        var_dump($response->getContent());
-        return $response->getStatusCode() === Response::HTTP_OK ? true : false;
-    }*/
 
 
     /**

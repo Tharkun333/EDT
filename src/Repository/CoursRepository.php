@@ -82,6 +82,26 @@ class CoursRepository extends ServiceEntityRepository
        ;
    }
 
+   public function getByDateAndProfessor($date,$professeur): array
+   {
+    $startDate = clone $date;
+    $startDate->setTime(0, 0, 0);
+
+    $endDate = clone $date;
+    $endDate->setTime(23, 59, 59);
+
+       return $this->createQueryBuilder('c')
+       ->andWhere('c.dateHeureDebut BETWEEN :start_date AND :end_date')
+       ->andWhere('c.professeur = :professeur')
+       ->setParameter('start_date', $startDate)
+       ->setParameter('end_date', $endDate)
+       ->setParameter('professeur', $professeur)
+       ->orderBy('c.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    public function findOneBySomeField($value): ?Cours
 //    {
 //        return $this->createQueryBuilder('c')
