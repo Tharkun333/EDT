@@ -21,7 +21,6 @@ class AvisCoursCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            AssociationField::new('cours'),
             ChoiceField::new('note')
                 ->setChoices(fn () => [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5])
                 ->renderAsNativeWidget(),
