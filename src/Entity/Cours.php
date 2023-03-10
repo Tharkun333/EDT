@@ -60,7 +60,6 @@ class Cours implements \JsonSerializable
 
     public function __construct()
     {
-
         $this->avisCours = new ArrayCollection();
     }
 
@@ -141,12 +140,14 @@ class Cours implements \JsonSerializable
 
     public function __toString()
     {
-        if($this->getMatiere()){
-            return sprintf('%s %s de %s à %s %s en %s', $this->getType(), $this->getMatiere()->getTitre(), $this->getProfesseur()->getNom() , $this->dateHeureDebut->format('Y-m-d H:i:s'), $this->dateHeureFin->format('Y-m-d H:i:s'), $this->getSalle());
+        if($this->getMatiere() == null)
+        {
+            return sprintf('%s %s de %s à %s %s en %s', "", "", "" , "", "","");
+
+        }else
+        {
+            return sprintf('%s %s de %s à %s %s en %s', $this->getType(), $this->getMatiere()->getTitre(), $this->getProfesseur()->getNom() , $this->getDateHeureDebut()->format('Y-m-d H:i:s'), $this->getDateHeureFin()->format('Y-m-d H:i:s'), $this->getSalle());
         }
-        return sprintf('%s %s de %s à %s %s en %s', $this->type, $this->matiere, $this->professeur , $this->dateHeureDebut, $this->dateHeureFin, $this->salle);
-       
-        
     }
 
     public function jsonSerialize(): mixed

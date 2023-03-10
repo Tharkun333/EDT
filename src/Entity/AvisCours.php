@@ -23,7 +23,7 @@ class AvisCours implements \JsonSerializable
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Email]
+    #[Assert\Email] 
     private ?string $emailEtudiant = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -34,14 +34,9 @@ class AvisCours implements \JsonSerializable
     #[ORM\JoinColumn(nullable: false)]
     private ?Cours $cours = null;
 
-    public function __construct()
-    {
-        $this->cours = new Cours();
-    }
-
     public function __toString(): string
     {
-        return sprintf('%s %s (%s)', $this->note, $this->commentaire, $this->emailEtudiant);
+        return sprintf('%s %s %s (%s)', $this->note, $this->commentaire, $this->emailEtudiant, $this->cours);
     }
 
     public function jsonSerialize(): mixed
@@ -90,6 +85,7 @@ class AvisCours implements \JsonSerializable
 
     public function setCommentaire(?string $commentaire): self
     {
+        
         $this->commentaire = $commentaire;
 
         return $this;

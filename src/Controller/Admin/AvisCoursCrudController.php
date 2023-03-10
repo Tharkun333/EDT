@@ -26,7 +26,8 @@ class AvisCoursCrudController extends AbstractCrudController
                 ->setChoices(fn () => [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5])
                 ->renderAsNativeWidget(),
             'commentaire',
-            'emailEtudiant'
+            'emailEtudiant',
+            AssociationField::new('cours')
         ];
     }
 }
