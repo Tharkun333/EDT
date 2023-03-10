@@ -16,10 +16,9 @@ class ProfesseurIsDisponibleValidator extends ConstraintValidator
     {
         $coursAtThisDateForThisProf = $this->repository->getByDateAndProfessor($value->getDateHeureDebut(),$value->getProfesseur());
 
-
         foreach($coursAtThisDateForThisProf as $cours)
         {
-            if(($value->getDateHeureDebut() >= $cours->getDateHeureDebut() && $value->getDateHeureDebut() <= $cours->getDateHeureFin()) || ($value->getDateHeureDebut() <= $cours->getDateHeureDebut() && $value->getDateHeureFin() > $cours->getDateHeureDebut()))
+            if((($value->getDateHeureDebut() >= $cours->getDateHeureDebut() && $value->getDateHeureDebut() <= $cours->getDateHeureFin() ) || ($value->getDateHeureDebut() <= $cours->getDateHeureDebut() && $value->getDateHeureFin() > $cours->getDateHeureDebut())) && $value->getId() != $cours->getId())
             { 
                 $this->context->buildViolation($constraint->message)
                 ->setParameter('{{Cours}}',$cours->__toString())

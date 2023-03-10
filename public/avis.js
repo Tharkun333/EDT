@@ -76,9 +76,6 @@ createApp({
                     </p>
                     <button v-if="unAvis.emailEtudiant == connectedUser.email" v-on:click="deleteAvis(unAvis)" class="btn btn-primary mt-3">
                         Supprimer
-                    </button>
-                    <button v-if="unAvis.emailEtudiant == connectedUser.email" v-on:click="editAvis(unAvis)" class="btn btn-primary mt-3">
-                        Editer
                     </button> 
                 </div> 
             </div>

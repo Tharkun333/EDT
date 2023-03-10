@@ -48,11 +48,9 @@ class CoursController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET','POST'])]
-    public function edit(Request $request, CoursRepository $coursRepository,int $id): Response
+    public function edit(Request $request, CoursRepository $coursRepository,Cours  $cours): Response
     {
-        $cours= $coursRepository->find($id);
-        $form = $this->createForm(CoursType::class,$cours);
-
+        $form = $this->createForm(CoursType::class,$cours);;
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $cours = $form->getData();

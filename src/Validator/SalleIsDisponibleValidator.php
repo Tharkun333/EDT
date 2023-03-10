@@ -16,7 +16,6 @@ class SalleIsDisponibleValidator extends ConstraintValidator
     {
         $coursAtThisDateInThisSalle = $this->repository->getByDateAndSalle($value->getDateHeureDebut(),$value->getSalle());
 
-
         foreach($coursAtThisDateInThisSalle as $cours)
         {
             if(($value->getDateHeureDebut() >= $cours->getDateHeureDebut() && $value->getDateHeureDebut() <= $cours->getDateHeureFin()) || ($value->getDateHeureDebut() <= $cours->getDateHeureDebut() && $value->getDateHeureFin() > $cours->getDateHeureDebut()))
