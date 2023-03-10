@@ -22,7 +22,7 @@ class AvisCoursCrudController extends AbstractCrudController
                 ->renderAsNativeWidget(),
             'commentaire',
             'emailEtudiant',
-            AssociationField::new('cours'),
+            AssociationField::new('cours')
         ];
     }
 }
